@@ -290,10 +290,6 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
 
-    -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
-
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
@@ -303,21 +299,22 @@ globalkeys = gears.table.join(
                     history_path = awful.util.get_cache_dir() .. "/history_eval"
                   }
               end,
-              {description = "lua execute prompt", group = "awesome"}),
+              {description = "lua execute prompt", group = "awesome"}),          
 
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
+
+    -- VScode
+    awful.key({ modkey }, "r",     function () 
+        awful.util.spawn("code") end,
+              {description = "open vscode", group = "applications"}),          
     
     -- Brave
-    awful.key({ modkey },           "b",    function ()
+    awful.key({ modkey }, "b",    function ()
         awful.util.spawn("brave") end,
-                    {description="opens brave browser", group="applications"}),
-    
-    -- Bluetooth
-    awful.key({ modkey },           "a",    function ()
-        awful.util.spawn("sh ~/.config/awesome/bluetooth.sh") end,
-                    {description="connects airpods", group="launcher"})     
+                    {description="opens brave browser", group="applications"})
+     
 )
 
 clientkeys = gears.table.join(
