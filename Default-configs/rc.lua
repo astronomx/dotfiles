@@ -327,9 +327,11 @@ globalkeys = gears.table.join(
 
     -- restart desktop
     awful.key({ modkey, "Control" },    "r", awesome.restart,
-              {description = "reload awesome", group = "awesome"})
+              {description = "reload awesome", group = "awesome"}),
 
-    -- quit application
+    -- volume up and down    
+    awful.key({ }, "#122", function () awful.util.spawn("amixer -D pulse sset Master 5%-") end),
+    awful.key({ }, "#123", function () awful.util.spawn("amixer -D pulse sset Master 5%+") end)
 
     
 )
