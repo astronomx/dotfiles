@@ -313,9 +313,14 @@ globalkeys = gears.table.join(
                 {description= "open brave browser", group = "applications"}),
               
     -- vscode
-    awful.key({ modkey },   "r",    function () 
+    awful.key({ modkey },   "c",    function () 
         awful.util.spawn("code") end,
               {description = "open vscode", group = "applications"}),
+    
+    -- thunar
+    awful.key({ modkey },   "t",    function () 
+        awful.util.spawn("thunar") end,
+              {description = "open file manager", group = "applications"}),              
                 
     --- ++++++++++++++++
     --- +    system    + 
@@ -578,3 +583,4 @@ beautiful.useless_gap = 10
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("~/.fehbg")
 awful.spawn.with_shell("polybar")
+awful.spawn("start-pulseaudio-x11")
