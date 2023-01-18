@@ -88,7 +88,7 @@ beautiful.menu_fg_focus = "#041c2d"
 mymainmenu = awful.menu({ items = { { "   Hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
                                     { "   Terminal", terminal },
                                     { "   File Manager", thunar },
-                                    { "   Manual", terminal .. "-e man awesome" },
+                                    { "   Manual", terminal .. "-e man awesome" },
                                     { "   Edit Config", editor_cmd .. " " .. awesome.conffile },
                                     { "   Restart", awesome.restart },
                                     { "   Quit", function() awesome.quit() end }
@@ -168,7 +168,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -254,13 +254,6 @@ globalkeys = gears.table.join(
         {description = "go back", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
-              {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "r", awesome.restart,
-              {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
-
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
@@ -299,22 +292,53 @@ globalkeys = gears.table.join(
                     history_path = awful.util.get_cache_dir() .. "/history_eval"
                   }
               end,
-              {description = "lua execute prompt", group = "awesome"}),          
+              {description = "lua execute prompt", group = "awesome"}),  
 
-    -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
+    --- custom functions ---
+    --- ++++++++++++++++
+    --- + applications + 
+    --- ++++++++++++++++
 
-    -- VScode
-    awful.key({ modkey }, "r",     function () 
-        awful.util.spawn("code") end,
-              {description = "open vscode", group = "applications"}),          
-    
-    -- Brave
-    awful.key({ modkey }, "b",    function ()
+    -- terminal
+    awful.key({ modkey },   "Return",   function () awful.spawn(terminal) end,
+              {description = "open a terminal", group = "launcher"}),
+          
+    -- menubar
+    awful.key({ modkey },   "p",    function() menubar.show() end,
+        {description = "show the menubar", group = "launcher"}),
+              
+    -- brave
+    awful.key({ modkey },   "b",    function ()
         awful.util.spawn("brave") end,
-                    {description="opens brave browser", group="applications"})
-     
+                {description= "open brave browser", group = "applications"}),
+              
+    -- vscode
+    awful.key({ modkey },   "c",    function () 
+        awful.util.spawn("code") end,
+              {description = "open vscode", group = "applications"}),
+    
+    -- thunar
+    awful.key({ modkey },   "t",    function () 
+        awful.util.spawn("thunar") end,
+              {description = "open file manager", group = "applications"}),              
+                
+    --- ++++++++++++++++
+    --- +    system    + 
+    --- ++++++++++++++++
+             
+    -- quit desktop
+    awful.key({ modkey, "Control" },    "q", awesome.quit,
+              {description = "quit awesome", group = "awesome"}),
+
+    -- restart desktop
+    awful.key({ modkey, "Control" },    "r", awesome.restart,
+              {description = "reload awesome", group = "awesome"}),
+
+    -- volume up and down    
+    awful.key({ }, "#122", function () awful.util.spawn("amixer -D pulse sset Master 5%-") end),
+    awful.key({ }, "#123", function () awful.util.spawn("amixer -D pulse sset Master 5%+") end) 
+
+    
 )
 
 clientkeys = gears.table.join(
@@ -324,7 +348,7 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey }, "q",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
@@ -516,30 +540,31 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
-    awful.titlebar(c) : setup {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                align  = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            -- awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
-            -- awful.titlebar.widget.stickybutton   (c),
-            -- awful.titlebar.widget.ontopbutton    (c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
+    -- awful.titlebar(c) : setup {
+    --     { -- Left
+    --         awful.titlebar.widget.iconwidget(c),
+    --         buttons = buttons,
+    --         layout  = wibox.layout.fixed.horizontal
+    --     },
+    --     { -- Middle
+    --         { -- Title
+    --             align  = "center",
+    --             widget = awful.titlebar.widget.titlewidget(c)
+    --         },
+    --         buttons = buttons,
+    --         layout  = wibox.layout.flex.horizontal
+    --     },
+    --     { -- Right
+    --         -- awful.titlebar.widget.floatingbutton (c),
+    --         awful.titlebar.widget.maximizedbutton(c),
+    --         -- awful.titlebar.widget.stickybutton   (c),
+    --         -- awful.titlebar.widget.ontopbutton    (c),
+    --         awful.titlebar.widget.closebutton    (c),
+    --         layout = wibox.layout.fixed.horizontal()
+    --     },
+    --     layout = wibox.layout.align.horizontal
+    -- }
+
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
