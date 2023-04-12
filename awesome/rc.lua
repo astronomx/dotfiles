@@ -304,13 +304,38 @@ globalkeys = gears.table.join(
               {description = "open a terminal", group = "launcher"}),
           
     -- menubar
-    awful.key({ modkey },   "p",    function() menubar.show() end,
-        {description = "show the menubar", group = "launcher"}),
+    -- awful.key({ modkey },   "p",    function() menubar.show() end,
+    --     {description = "show the menubar", group = "launcher"}),
+
+    -- rofi
+    awful.key({ modkey },    "r",    function()
+        awful.util.spawn("rofi -show drun") end,
+                {description="open rofi", group = "launcher"}),
+
+    -- rofi (emoji)
+    awful.key({ modkey, "Shift" },    "e",    function()
+        awful.util.spawn("rofi -show emoji") end,
+                {description="open rofi", group = "launcher"}),   
+                
+    -- rofi (wifi)
+    awful.key({ modkey, "Shift" },    "w",    function()
+        awful.util.spawn("") end,
+                {description="open rofi wifimenu", group = "launcher"}), 
+                
+    -- rofi (calc)
+    awful.key({ modkey, "Shift" },    "c",    function()
+        awful.util.spawn("rofi -show calc") end,
+                {description="open rofi calculator", group = "launcher"}),            
               
     -- brave
     awful.key({ modkey },   "b",    function ()
         awful.util.spawn("brave") end,
                 {description= "open brave browser", group = "applications"}),
+
+    -- firefox
+    awful.key({ modkey, "Control" },   "b",    function ()
+        awful.util.spawn("firefox") end,
+                {description= "open firefox", group = "applications"}),
               
     -- vscode
     awful.key({ modkey },   "c",    function () 
@@ -582,4 +607,7 @@ beautiful.useless_gap = 10
 -- Autostart Applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("~/.fehbg")
-awful.spawn.with_shell("polybar")
+-- awful.spawn.with_shell("polybar")
+awful.spawn.with_shell("bash ~/.config/polybar/launch.sh --material")
+awful.spawn.with_shell("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+-- awful.spawn.with_shell("~/.screenlayout/screen-layout.sh")
