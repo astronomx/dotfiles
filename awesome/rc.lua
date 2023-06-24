@@ -43,6 +43,11 @@ do
 end
 -- }}}
 
+local themes = {
+    "default",
+    "spiderman"
+}
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
@@ -53,7 +58,7 @@ beautiful.gap_single_client = true
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -168,7 +173,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -325,15 +330,10 @@ globalkeys = gears.table.join(
     -- rofi (calc)
     awful.key({ modkey, "Shift" },    "c",    function()
         awful.util.spawn("rofi -show calc") end,
-                {description="open rofi calculator", group = "launcher"}),            
-              
-    -- brave
-    awful.key({ modkey },   "b",    function ()
-        awful.util.spawn("brave") end,
-                {description= "open brave browser", group = "applications"}),
+                {description="open rofi calculator", group = "launcher"}),
 
     -- firefox
-    awful.key({ modkey, "Control" },   "b",    function ()
+    awful.key({ modkey },   "b",    function ()
         awful.util.spawn("firefox") end,
                 {description= "open firefox", group = "applications"}),
               
@@ -350,6 +350,10 @@ globalkeys = gears.table.join(
     --- ++++++++++++++++
     --- +    system    + 
     --- ++++++++++++++++
+    -- quit desktop
+    awful.key({ modkey },  "g", function ()
+        awful.util.spawn("rofi -show run") end,
+            {description = "open rofi menu", group = "awesome"}),
              
     -- quit desktop
     awful.key({ modkey, "Control" },    "q", awesome.quit,
@@ -531,6 +535,8 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = true }
     },
 
+    
+
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
@@ -603,12 +609,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Custom Conifgs
-beautiful.useless_gap = 10
+beautiful.useless_gap = 5
 
 -- Autostart Applications
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("~/.fehbg")
+awful.spawn.with_shell("autorandr")
 -- awful.spawn.with_shell("polybar")
-awful.spawn.with_shell("bash ~/.config/polybar/launch.sh --material")
+awful.spawn.with_shell("bash ~/.config/polybar/launch.sh --forest")
 awful.spawn.with_shell("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 -- awful.spawn.with_shell("~/.screenlayout/screen-layout.sh")
