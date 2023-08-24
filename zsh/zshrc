@@ -108,24 +108,15 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # system
-alias battery="upower -i `upower -e | grep 'BAT'`"
-alias nordvpn-run="sudo systemctl restart nordvpnd.socket"
 alias hibernate="sudo systemctl hibernate"
 alias update="sudo pacman -Syyu"
 alias refresh="source ~/.zshenv"
-alias wifimenu="~/.local/bin/rofi-wifi-menu.sh"
 alias auth="/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-
-# programming
-alias art="php artisan"
-alias next="npx create-next-app@latest"
 
 # configurations
 alias zshconfig="code ~/.zshrc"
-alias phpconfig="code /etc/php/php.ini"
-alias ohmyzshconfig="code ~/.oh-my-zsh"
 alias awesomeconfig="code ~/.config/awesome/rc.lua"
-alias roficonfig="sudo code /usr/share/rofi/themes/blue.rasi --no-sandbox --user-data-dir='.'"
+alias ohmyzshconfig="code ~/.oh-my-zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
