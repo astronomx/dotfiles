@@ -596,7 +596,7 @@ beautiful.useless_gap = 5
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("~/.fehbg")
 awful.spawn.with_shell("autorandr")
-awful.spawn.with_shell("bash ~/.config/touchescreen/touch.sh")
+awful.spawn.with_shell("bash ~/.config/touchscreen/touch.sh")
 -- awful.spawn.with_shell("polybar")
 awful.spawn.with_shell("bash ~/.config/polybar/launch.sh --forest")
 awful.spawn.with_shell("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
