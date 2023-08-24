@@ -223,13 +223,13 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
-    awful.key({ modkey,           }, "j",
+    awful.key({ modkey,           }, "k",
         function ()
             awful.client.focus.byidx( 1)
         end,
         {description = "focus next by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "k",
+    awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx(-1)
         end,
@@ -314,23 +314,8 @@ globalkeys = gears.table.join(
 
     -- rofi
     awful.key({ modkey },    "r",    function()
-        awful.util.spawn("rofi -show drun") end,
+        awful.util.spawn("rofi -show drun -theme ~/customization/rofi-collection/tokyonight/tokyonight.rasi") end,
                 {description="open rofi", group = "launcher"}),
-
-    -- rofi (emoji)
-    awful.key({ modkey, "Shift" },    "e",    function()
-        awful.util.spawn("rofi -show emoji") end,
-                {description="open rofi", group = "launcher"}),   
-                
-    -- rofi (wifi)
-    awful.key({ modkey, "Shift" },    "w",    function()
-        awful.util.spawn("") end,
-                {description="open rofi wifimenu", group = "launcher"}), 
-                
-    -- rofi (calc)
-    awful.key({ modkey, "Shift" },    "c",    function()
-        awful.util.spawn("rofi -show calc") end,
-                {description="open rofi calculator", group = "launcher"}),
 
     -- firefox
     awful.key({ modkey },   "b",    function ()
@@ -350,10 +335,6 @@ globalkeys = gears.table.join(
     --- ++++++++++++++++
     --- +    system    + 
     --- ++++++++++++++++
-    -- quit desktop
-    awful.key({ modkey },  "g", function ()
-        awful.util.spawn("rofi -show run") end,
-            {description = "open rofi menu", group = "awesome"}),
              
     -- quit desktop
     awful.key({ modkey, "Control" },    "q", awesome.quit,
@@ -612,10 +593,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 beautiful.useless_gap = 5
 
 -- Autostart Applications
-awful.spawn.with_shell("compton")
+awful.spawn.with_shell("picom")
 awful.spawn.with_shell("~/.fehbg")
 awful.spawn.with_shell("autorandr")
+awful.spawn.with_shell("bash ~/.config/touchescreen/touch.sh")
 -- awful.spawn.with_shell("polybar")
 awful.spawn.with_shell("bash ~/.config/polybar/launch.sh --forest")
 awful.spawn.with_shell("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
--- awful.spawn.with_shell("~/.screenlayout/screen-layout.sh")
