@@ -64,7 +64,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 1.0
+  opacity: 0.8
   # Startup Mode (changes require restart)
   #
   # Values for `startup_mode`:
@@ -97,13 +97,14 @@ window:
   #history: 10000
   # Scrolling distance multiplier.
   #multiplier: 3
+
   # Font configuration
-  font: null
+font:
   # Normal (roman) font face
   normal:
     # Font family
-    family: Iosevka
-    style: Regular
+    family: ProggyClean Nerd Font
+    # style: Regular
   # Default:
   #   - (macOS) Menlo
   #   - (Linux/BSD) monospace
@@ -139,7 +140,7 @@ window:
   # The `style` can be specified to pick a specific face.
   #style: Bold Italic
   # Point size
-  #size: 11.0
+  size: 12.0
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
   # spacing.
@@ -387,8 +388,10 @@ window:
 #   - (Windows) powershell
 shell:
   program: /bin/zsh
-  #  args:
-  #    - --login
+  args:
+    - -l
+    - -c
+    - "tmux && clear"
   # Startup directory
   #
   # Directory the shell is started in. If this is unset, or `None`, the working
@@ -824,28 +827,28 @@ shell:
 colors:
   # Default colors
   primary:
-    background: '#001258'
-    foreground: '#AFADFF'
+    background: "#282828"
+    foreground: "#54ecc4"
 
   # Normal colors
   normal:
-    black: '#191E2A'
-    red: '#FF3333'
-    green: '#BAE67E'
-    yellow: '#FFA759'
-    blue: '#73D0FF'
-    magenta: '#FFD580'
-    cyan: '#95E6CB'
-    white: '#C7C7C7'
+    black: "#191E2A"
+    red: "#FF3333"
+    green: "#BAE67E"
+    yellow: "#FFA759"
+    blue: "#73D0FF"
+    magenta: "#FFD580"
+    cyan: "#95E6CB"
+    white: "#C7C7C7"
 
   # Bright colors
   bright:
-    black: '#686868'
-    red: '#F27983'
-    green: '#A6CC70'
-    yellow: '#FFCC66'
-    blue: '#5CCFE6'
-    magenta: '#FFEE99'
-    cyan: '#95E6CB'
-    white: '#FFFFFF'
+    black: "#686868"
+    red: "#F27983"
+    green: "#A6CC70"
+    yellow: "#FFCC66"
+    blue: "#5CCFE6"
+    magenta: "#FFEE99"
+    cyan: "#95E6CB"
+    white: "#FFFFFF"
 theme: Ayu-Mirage
