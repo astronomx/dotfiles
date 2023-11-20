@@ -43,11 +43,6 @@ do
 end
 -- }}}
 
-local themes = {
-    "default",
-    "spiderman"
-}
-
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
@@ -70,7 +65,22 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    awful.layout.suit.tile,
+    awful.layout.suit.floating,
+    awful.layout.suit.tile, 
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
 }
 -- }}}
 
@@ -165,7 +175,8 @@ local function set_wallpaper(s)
     end
 end
 
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+
+
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
@@ -173,7 +184,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4" }, s, awful.layout.layouts[8])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -198,8 +209,6 @@ awful.screen.connect_for_each_screen(function(s)
         filter  = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons
     }
-
-    -- Create the wibox
 
 end)
 -- }}}
@@ -243,9 +252,9 @@ globalkeys = gears.table.join(
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative( 1) end,
+    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative( -1) end,
               {description = "focus the next screen", group = "screen"}),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative(-1) end,
+    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative(1) end,
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
@@ -313,10 +322,17 @@ globalkeys = gears.table.join(
     --     {description = "show the menubar", group = "launcher"}),
 
     -- rofi
-    awful.key({ modkey },    "r",    function()
-        awful.util.spawn("rofi -show drun -theme ~/customization/rofi-collection/tokyonight/tokyonight.rasi") end,
-                {description="open rofi", group = "launcher"}),
+    -- awful.key({ modkey },    "r",    function()
+    --     awful.util.spawn("rofi -show drun -show-icons") end,
+    --             {description="open rofi", group = "launcher"}),
+    awful.key({ modkey }, "r", function()
+        awful.spawn.with_shell("~/.config/rofi/launchers/type-6/launcher.sh")
+    end, {description="open rofi", group = "launcher"}),
 
+    awful.key({ modkey, 'Shift' }, "r", function()
+        awful.spawn.with_shell("~/.config/rofi/powermenu/type-5/powermenu.sh")
+    end, {description="open rofi", group = "launcher"}),
+                
     -- firefox
     awful.key({ modkey },   "b",    function ()
         awful.util.spawn("firefox") end,
@@ -344,9 +360,38 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" },    "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
 
+    -- lock desktop
+    awful.key({ modkey }, "l",
+    function ()
+        awful.util.spawn("sync")
+        awful.util.spawn("xautolock -locknow")
+    end), 
+
     -- volume up and down    
     awful.key({ }, "#122", function () awful.util.spawn("amixer -D pulse sset Master 5%-") end),
-    awful.key({ }, "#123", function () awful.util.spawn("amixer -D pulse sset Master 5%+") end) 
+    awful.key({ }, "#123", function () awful.util.spawn("amixer -D pulse sset Master 5%+") end),
+
+    -- screenshot
+    awful.key({ }, "Print", function()
+        awful.util.spawn_with_shell("scrot --focused --exec 'mv -v $f ~/Pictures/screenshots/'")
+    end),
+
+    -- brightness
+    -- awful.key({ }, "#232", function () awful.util.spawn("xbacklight -dec 10") end),
+    -- awful.key({ }, "#233", function () awful.util.spawn("xbacklight -inc 10") end),
+
+    -- screenpad control
+    awful.key({ modkey }, "#67", function () awful.util.spawn("screenpad 1") end),
+    awful.key({ modkey }, "#68", function () awful.util.spawn("screenpad 2") end),
+    awful.key({ modkey }, "#69", function () awful.util.spawn("screenpad 3") end),
+    awful.key({ modkey }, "#70", function () awful.util.spawn("screenpad 4") end),
+    awful.key({ modkey }, "#71", function () awful.util.spawn("screenpad 5") end),
+    awful.key({ modkey }, "#72", function () awful.util.spawn("screenpad 6") end),
+    awful.key({ modkey }, "#73", function () awful.util.spawn("screenpad 7") end),
+    awful.key({ modkey }, "#74", function () awful.util.spawn("screenpad 8") end),
+    awful.key({ modkey }, "#75", function () awful.util.spawn("screenpad 9") end),
+
+    awful.key({ }, "#194", function () awful.util.spawn("screenpad toggle") end)
 
     
 )
@@ -364,12 +409,15 @@ clientkeys = gears.table.join(
               {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
               {description = "move to master", group = "client"}),
-    awful.key({ modkey,           }, "o",      function (c) c:move_to_screen()               end,
-              {description = "move to screen", group = "client"}),
-    awful.key({ modkey, "Shift" }, "o", function (c) c:move_to_screen(-1) end, 
-                {description = "move to screen", group = "client"}),
+    
+    awful.key({ modkey }, "o",
+        function ()
+            local c = client.focus
+            if c then c:move_to_screen() end
+        end, {description = "Move focused window on next screen", group = "Screens management"}),
+
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
-              {description = "toggle keep on top", group = "client"}),
+              {description = "toggle keep oon top", group = "client"}),
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
@@ -471,16 +519,29 @@ awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
         except = {class = "Polybar"},
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     raise = true,
-                     keys = clientkeys,
-                     buttons = clientbuttons,
-                     screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
-     }
+        properties = { border_width = beautiful.border_width,
+                        border_color = beautiful.border_normal,
+                        focus = awful.client.focus.filter,
+                        raise = true,
+                        keys = clientkeys,
+                        buttons = clientbuttons,
+                        screen = awful.screen.preferred,
+                        placement = awful.placement.no_overlap+awful.placement.no_offscreen
+        },
     },
+    {
+        rule = { class = "phpstorm" },
+        properties = (screen.count() == 1) and { screen = 1, tag = '1' } or { screen = 3, tag = '1' }
+    },
+    {
+        rule = { class = "Spotify" },
+        properties = { screen = 1, tag = '3' }
+    },
+    {
+        rule = { class = "Slack" },
+        properties = { screen = 1, tag = '2' }
+    },
+    
 
     -- Floating clients.
     { rule_any = {
@@ -591,14 +652,29 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+autorun = true
+autorunApps =
+{
+    "xfce4-power-manager",
+    "slack",
+}
+
+if autorun then
+   for app = 1, #autorunApps do
+       awful.util.spawn(autorunApps[app])
+   end
+end
+
+
 -- Custom Conifgs
 beautiful.useless_gap = 5
 
 -- Autostart Applications
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("~/.fehbg")
-awful.spawn.with_shell("autorandr")
+-- awful.spawn.with_shell("autorandr")
 awful.spawn.with_shell("bash ~/.config/touchscreen/touch.sh")
--- awful.spawn.with_shell("polybar")
 awful.spawn.with_shell("bash ~/.config/polybar/launch.sh --forest")
+-- awful.spawn.with_shell("polybar")
 awful.spawn.with_shell("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+awful.util.spawn_with_shell('~/.config/awesome/locker')
