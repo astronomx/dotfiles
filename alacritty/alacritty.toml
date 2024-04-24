@@ -1,26 +1,6 @@
-[colors.bright]
-black = "#686868"
-blue = "#5CCFE6"
-cyan = "#95E6CB"
-green = "#A6CC70"
-magenta = "#FFEE99"
-red = "#F27983"
-white = "#FFFFFF"
-yellow = "#FFCC66"
-
-[colors.normal]
-black = "#191E2A"
-blue = "#73D0FF"
-cyan = "#95E6CB"
-green = "#BAE67E"
-magenta = "#FFD580"
-red = "#FF3333"
-white = "#C7C7C7"
-yellow = "#FFA759"
-
-[colors.primary]
-background = "#282828"
-foreground = "#54ecc4"
+import = [
+    "~/.config/alacritty/themes/themes/iris.toml"
+]
 
 [font]
 size = 12.0
@@ -33,9 +13,9 @@ args = ["-l", "-c", "tmux && clear"]
 program = "/bin/zsh"
 
 [window]
-opacity = 0.5
-
+opacity = 1
 decorations = "none"
+
 [window.dimensions]
 columns = 88
 lines = 24
